@@ -21,7 +21,6 @@ class _MapPageState extends State<MapPage> {
   GlobalKey _scaffoldKey = null;
 
   Future _currentLocation() async {
-
     _fetchLocation = true;
 
     final GeolocationResult result = await Geolocation.isLocationOperational();
@@ -44,7 +43,6 @@ class _MapPageState extends State<MapPage> {
               showMap(lat, lon);
             });
           } else {
-
             setState(() {
               _fetchLocation = false;
             });
@@ -72,14 +70,13 @@ class _MapPageState extends State<MapPage> {
   void showMap(lat, lon) {
     var _mapView = new MapView();
     _mapView.show(
-      new MapOptions(
-        title: "Events",
-          mapViewType: MapViewType.normal,
-          showUserLocation: true,
-          initialCameraPosition:
-              new CameraPosition(new LL.Location(lat, lon), 14.0)),
-      toolbarActions: [new ToolbarAction("Close", 1)]
-    );
+        new MapOptions(
+            title: "Events",
+            mapViewType: MapViewType.normal,
+            showUserLocation: true,
+            initialCameraPosition:
+                new CameraPosition(new LL.Location(lat, lon), 14.0)),
+        toolbarActions: [new ToolbarAction("Close", 1)]);
 
     _mapView.onMapTapped.listen((location) {
       var markers = _mapView.markers;
