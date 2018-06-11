@@ -4,35 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:poc/data/databasehelper.dart';
 import 'package:poc/model/formdata.dart';
 
-List<FormData> fetchData() {
-  List<FormData> listData = new List<FormData>();
-  var db = DatabaseHelper.instance;
-  final response = db.getAllData();
-  Future<List<FormData>> data = response;
-  data.then((onValue) => listData.addAll(onValue));
-  var size = listData.length;
-  print("db length  $size");
-  return listData;
-}
-
-_getItemView(BuildContext context) async {
-  List<FormData> datas = await fetchData();
-  final List<Widget> tiles = <Widget>[];
-  for (int index = 0; index < datas.length; index++) {
-    tiles.add(new Row(
-      children: <Widget>[
-        new Text(datas.elementAt(index).name),
-        new Text(datas.elementAt(index).email),
-        new Text(datas.elementAt(index).mobile),
-        new Text(datas.elementAt(index).age),
-        new Text(datas.elementAt(index).imagepath),
-        new Text(datas.elementAt(index).location),
-      ],
-    ));
-  }
-
-  return tiles;
-}
 
 class ListScreen extends StatefulWidget {
   @override
@@ -40,22 +11,52 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+  List<FormData> listData;
+
+  Future<List<FormData>> getListViewData() async {
+    var db = DatabaseHelper.instance;
+    List<FormData> response = await db.getAllData();
+    this.setState(() {
+      this.listData = response;
+    });
+    return response;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    this.getListViewData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    fetchData();
+    // fetchData();
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("List Screen"),
         ),
-        body: new ListView(
-          children: <Widget>[
-            new Text("DATA 1"),
-            new Text("DATA 2"),
-            new Text("DATA 3"),
-            new Text("DATA 4"),
-            new Text("DATA 5"),
-          ],
+        body: new ListView.builder(
+          itemCount: listData == null ? 0 : listData.length,
+          itemBuilder: (BuildContext context, int index) {
+            return new Card(
+              child: new Row(
+                children: <Widget>[
+                  new Text(listData[index].name),
+                  new Padding(padding: const EdgeInsets.all(5.0)),
+                  new Text(listData[index].email),
+                  new Padding(padding: const EdgeInsets.all(5.0)),
+                  new Text(listData[index].mobile),
+                  new Padding(padding: const EdgeInsets.all(5.0)),
+                  new Text(listData[index].age),
+                  new Padding(padding: const EdgeInsets.all(5.0)),
+                  new Text(listData[index].imagepath),
+                  new Padding(padding: const EdgeInsets.all(5.0)),
+                  new Text(listData[index].location),
+                  new Padding(padding: const EdgeInsets.all(5.0)),
+                ],
+              ),
+            );
+          },
         ));
   }
 }
-

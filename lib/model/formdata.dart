@@ -22,7 +22,7 @@ class FormData {
       columnMobile: mobile,
       columnAge: age,
       columnImagePath: imagepath,
-      columnLocation: location == true ? 1 : 0
+      columnLocation: location
     };
 
     return map;

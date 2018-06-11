@@ -30,8 +30,8 @@ class _FormPageState extends State<FormPage> {
   final formKey = new GlobalKey<FormState>();
 
   String _name, _email, _mobile, _age;
-  String _imagePath = "";
-  String _mapLocation = "";
+  String _imagePath = " ";
+  String _mapLocation = " ";
 
   @override
   void initState() {
@@ -45,15 +45,16 @@ class _FormPageState extends State<FormPage> {
 
   void _submit() {
     final form = formKey.currentState;
-    FormData data = new FormData();
-    data.name = _name;
-    data.email = _email;
-    data.mobile = _mobile;
-    data.age = _age;
-    data.imagepath = _imagePath;
-    data.location = _mapLocation;
+
     if (form.validate()) {
       form.save();
+      FormData data = new FormData();
+      data.name = _name;
+      data.email = _email;
+      data.mobile = _mobile;
+      data.age = _age;
+      data.imagepath = _imagePath;
+      data.location = _mapLocation;
       var db = DatabaseHelper.instance;
       db.saveFormData(data).then((onValue) => _openListScreen());
     }

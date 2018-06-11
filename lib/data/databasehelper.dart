@@ -49,15 +49,12 @@ class DatabaseHelper {
   Future<int> saveFormData(FormData form) async {
     var dbClient = await db;
     int res = await dbClient.insert(tableName, form.toMap());
-    print("Data inserted in DB $res");
-    dbClient.close();
     return res;
   }
 
-
   //fetch Data
   Future<List<FormData>> getAllData() async {
-    List<FormData> result = new List<FormData>();
+    List<FormData> result = new List<FormData>() ;
     var dbClient = await db;
     List<Map> maps = await dbClient.query(tableName, columns: [
       columnName,
@@ -67,10 +64,13 @@ class DatabaseHelper {
       columnImagePath,
       columnLocation
     ]);
+    int length = maps.length;
+    if (length > 0) {
+      for (int i = 0; i < length; i++) {
+        FormData data = new FormData.fromMap(maps.elementAt(i));
+        String name= data.name;
+        result.add(data);
 
-    if (maps.length > 0) {
-      for (int i = 0; i < maps.length; i++) {
-        result.add(new FormData.fromMap(maps.elementAt(i)));
       }
       return result;
     }
