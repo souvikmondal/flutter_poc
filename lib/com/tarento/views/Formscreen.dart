@@ -1,8 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:poc/CameraPreviewScreen.dart';
-import 'package:poc/ListScreen.dart';
-import 'package:poc/com/tarento/map/map_page.dart';
+import 'package:poc/com/tarento/views/CameraPreviewScreen.dart';
+import 'package:poc/com/tarento/views/ListScreen.dart';
 import 'package:poc/data/databasehelper.dart';
 import 'package:poc/model/formdata.dart';
 
@@ -71,12 +70,12 @@ class _FormPageState extends State<FormPage> {
 
   //Starts the map screen
   _openMap(BuildContext buildContext) async {
-    final result = await Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) => new MapPage(title: 'Sports Events')));
-    _mapLocation = result;
-    print("location ---->> $_mapLocation");
+//    final result = await Navigator.push(
+//        context,
+//        new MaterialPageRoute(
+//            builder: (context) => new MapPage(title: 'Sports Events')));
+//    _mapLocation = result;
+//    print("location ---->> $_mapLocation");
   }
 
   _openCamera(BuildContext contfbext) async {
@@ -143,7 +142,7 @@ class _FormPageState extends State<FormPage> {
                     new IconButton(
                         icon: new Icon(Icons.map),
                         onPressed: () {
-                          _openMap(context);
+//                          _openMap(context);
                         }),
                     new IconButton(
                         icon: new Icon(Icons.camera),

@@ -4,25 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:map_view/map_view.dart';
 import 'package:map_view/location.dart' as LL;
 import 'package:geolocation/geolocation.dart';
-import 'package:poc/com/tarento/map/colors.dart';
+import 'package:poc/com/tarento/views/colors.dart';
+import 'package:poc/com/tarento/views/template_page.dart';
 
-class MapPage extends StatefulWidget {
-  MapPage({Key key, this.title}) : super(key: key);
+class HomePage extends StatefulWidget {
+  HomePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MapPageState createState() => new _MapPageState();
+  _HomePageState createState() => new _HomePageState();
 }
 
-class _MapPageState extends State<MapPage> {
-  var _loadingMap = false;
-  var _fetchLocation = false;
-  GlobalKey _scaffoldKey = null;
+class _HomePageState extends State<HomePage> {
+  double lat, lon;
+
+  initState() {
+    super.initState();
+    _currentLocation();
+  }
 
   Future _currentLocation() async {
-    _fetchLocation = true;
-
     final GeolocationResult result = await Geolocation.isLocationOperational();
     if (result.isSuccessful) {
       final GeolocationResult result =
@@ -36,38 +38,24 @@ class _MapPageState extends State<MapPage> {
             .currentLocation(accuracy: LocationAccuracy.best)
             .listen((result) {
           if (result.isSuccessful) {
-            double lat = result.location.latitude;
-            double lon = result.location.longitude;
-            setState(() {
-              _fetchLocation = true;
-              showMap(lat, lon);
-            });
-          } else {
-            setState(() {
-              _fetchLocation = false;
-            });
+            lat = result.location.latitude;
+            lon = result.location.longitude;
           }
         });
       } else {
-        setState(() {
-          _fetchLocation = false;
-        });
         print("location permission is not granted");
 
         // location permission is not granted
         // user might have denied, but it's also possible that location service is not enabled, restricted, and user never saw the permission request dialog
       }
     } else {
-      setState(() {
-        _fetchLocation = false;
-      });
       print(
           "location service is not enabled, restricted, or location permission is denied");
       // location service is not enabled, restricted, or location permission is denied
     }
   }
 
-  void showMap(lat, lon) {
+  void showMap() {
     var _mapView = new MapView();
     _mapView.show(
         new MapOptions(
@@ -88,18 +76,22 @@ class _MapPageState extends State<MapPage> {
           "", "", location.latitude, location.longitude,
           color: Colors.blueAccent));
     });
+
+    _mapView.onTouchAnnotation.listen((marker) {
+      _mapView.dismiss();
+      Navigator.push(
+          context, new MaterialPageRoute(builder: (context) => new TemplateListPage()));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    _scaffoldKey = new GlobalKey<ScaffoldState>();
     return new Scaffold(
-      key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
-        onPressed: _currentLocation,
+        onPressed: showMap,
         backgroundColor: Colors.indigo,
         child: Icon(
-          Icons.edit,
+          Icons.add,
           color: Colors.white,
         ),
       ),
@@ -114,7 +106,7 @@ class _MapPageState extends State<MapPage> {
               Icons.add_location,
               color: Colors.white,
             ),
-            onPressed: _currentLocation,
+            onPressed: showMap,
           )
         ],
       ),
