@@ -15,31 +15,23 @@ class TemplateListPage extends StatelessWidget {
         context, new MaterialPageRoute(builder: (context) => new Formscreen()));
   }
 
-  List<Widget> _getGridItems(List<IconData> imageList, List<String> titles, BuildContext context) {
+  List<Widget> _getGridItems(
+      List<IconData> imageList, List<String> titles, BuildContext context) {
     final List<Widget> tiles = <Widget>[];
     for (int i = 0; i < imageList.length; i++) {
       tiles.add(new GridTile(
+        child: new InkResponse(
+          enableFeedback: true,
           child: new Column(
             children: <Widget>[
-              new FloatingActionButton(
-                onPressed: () {
-                  _onItemClicked(i, context);
-                },
-                backgroundColor: AppColors.darkGreen,
-                child: Icon(
-                  imageList[i],
-                  color: Colors.white,
-                ),
-              ),
-              new Padding(
-                padding: new EdgeInsets.only(top: 10.0),
-                child: new Text(
-                  titles[i],
-                  style: TextStyle(color: AppColors.darkGreen),
-                ),
-              )
+              new Icon(imageList[i],
+                  size: 25.0, color: Colors.lightGreenAccent),
+              new Text(titles[i]),
             ],
-          ),));
+          ),
+          onTap: () => _onItemClicked(i, context),
+        ),
+      ));
     }
     return tiles;
   }

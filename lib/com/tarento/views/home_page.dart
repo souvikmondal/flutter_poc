@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double lat, lon;
+  double lat, lon, latitude, longitude;
 
   initState() {
     super.initState();
@@ -66,6 +66,13 @@ class _HomePageState extends State<HomePage> {
                 new CameraPosition(new LL.Location(lat, lon), 14.0)),
         toolbarActions: [new ToolbarAction("Close", 1)]);
 
+    _mapView.onMapReady.listen((location) {
+      LL.Location currentLocation = new LL.Location(lat, lon);
+      _mapView.addMarker(new Marker(
+          "", "", currentLocation.latitude, currentLocation.longitude,
+          color: Colors.redAccent));
+    });
+
     _mapView.onMapTapped.listen((location) {
       var markers = _mapView.markers;
       markers.forEach((marker) {
@@ -78,9 +85,20 @@ class _HomePageState extends State<HomePage> {
     });
 
     _mapView.onTouchAnnotation.listen((marker) {
+      latitude = marker.latitude;
+      longitude = marker.longitude;
+      print("latitude --->>>$latitude");
+      print("latitude --->>>$longitude");
       _mapView.dismiss();
-      Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => new TemplateListPage()));
+
+      Navigator.push(context,
+          new MaterialPageRoute(builder: (context) => new TemplateListPage()));
+    });
+
+    _mapView.onToolbarAction.listen((id) {
+      if (id == 1) {
+        _mapView.dismiss();
+      }
     });
   }
 
@@ -128,14 +146,23 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                     new Column(
                       children: <Widget>[
-                        new FloatingActionButton(
-                          onPressed: () {},
-                          backgroundColor: AppColors.darkGreen,
-                          child: Text(
-                            "10",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                        new InkWell(
+                          child: new Container(
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: new BoxDecoration(
+                              color: AppColors.darkGreen,
+                              shape: BoxShape.circle,
+                            ),
+                            child: new Column(
+                              children: <Widget>[
+                                new Text(
+                                  "10",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         new Padding(
@@ -145,18 +172,28 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(color: AppColors.darkGreen),
                           ),
                         )
+//                        new Text("Post"),
                       ],
                     ),
                     new Column(
                       children: <Widget>[
-                        new FloatingActionButton(
-                          onPressed: () {},
-                          backgroundColor: AppColors.darkGreen,
-                          child: Text(
-                            "15",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                        new InkWell(
+                          child: new Container(
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: new BoxDecoration(
+                              color: AppColors.darkGreen,
+                              shape: BoxShape.circle,
+                            ),
+                            child: new Column(
+                              children: <Widget>[
+                                new Text(
+                                  "15",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         new Padding(
@@ -170,14 +207,21 @@ class _HomePageState extends State<HomePage> {
                     ),
                     new Column(
                       children: <Widget>[
-                        new FloatingActionButton(
-                          onPressed: () {},
-                          backgroundColor: AppColors.darkGreen,
-                          child: Text(
-                            "06",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                        new InkWell(
+                          child: new Container(
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: new BoxDecoration(
+                              color: AppColors.darkGreen,
+                              shape: BoxShape.circle,
+                            ),
+                            child: new Column(
+                              children: <Widget>[
+                                new Text("06",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold))
+                              ],
+                            ),
                           ),
                         ),
                         new Padding(
@@ -191,10 +235,22 @@ class _HomePageState extends State<HomePage> {
                     ),
                     new Column(
                       children: <Widget>[
-                        new FloatingActionButton(
-                          onPressed: () {},
-                          backgroundColor: AppColors.darkGreen,
-                          child: Image.asset('images/swimming.png'),
+                        new InkWell(
+                          child: new Container(
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: new BoxDecoration(
+                              color: AppColors.darkGreen,
+                              shape: BoxShape.circle,
+                            ),
+                            child: new Column(
+                              children: <Widget>[
+                                new Text("32",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
                         ),
                         new Padding(
                           padding: new EdgeInsets.only(top: 10.0),
