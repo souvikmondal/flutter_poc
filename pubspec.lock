@@ -95,13 +95,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.0-alpha.12"
-  geolocation:
-    dependency: "direct main"
-    description:
-      name: geolocation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1"
   glob:
     dependency: transitive
     description:
@@ -158,6 +151,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0-alpha.12"
+  location:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "7db8600565d57f2c49350174e41ccf9ca7c357a6"
+      url: "git://github.com/souvikmondal/flutterlocation.git"
+    source: git
+    version: "1.3.4"
   logging:
     dependency: transitive
     description:
