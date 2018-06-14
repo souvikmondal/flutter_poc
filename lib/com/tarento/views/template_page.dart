@@ -1,18 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:poc/com/tarento/views/Formscreen.dart';
 import 'package:poc/com/tarento/views/colors.dart';
+import 'package:poc/model/locationdata.dart';
 
 class TemplateListPage extends StatelessWidget {
-  void _onItemClicked(int index, BuildContext context) {
-    print("Item clicked     $index");
-    if (index % 2 == 0) {
-      openFormScreen(context);
-    }
-  }
+  final LocationData locationData;
 
-  void openFormScreen(BuildContext context) {
+  TemplateListPage(this.locationData);
+
+  void _onItemClicked(int index, BuildContext context, String title) {
+    print("Item clicked     $index");
     Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => new Formscreen()));
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new Formscreen(locationData, title)));
   }
 
   List<Widget> _getGridItems(
@@ -20,18 +23,41 @@ class TemplateListPage extends StatelessWidget {
     final List<Widget> tiles = <Widget>[];
     for (int i = 0; i < imageList.length; i++) {
       tiles.add(new GridTile(
+          child: new Padding(
+        padding: const EdgeInsets.all(15.0),
         child: new InkResponse(
           enableFeedback: true,
           child: new Column(
             children: <Widget>[
-              new Icon(imageList[i],
-                  size: 25.0, color: Colors.lightGreenAccent),
-              new Text(titles[i]),
+              new InkWell(
+                child: new Container(
+                  padding: const EdgeInsets.all(20.0),
+                  decoration: new BoxDecoration(
+                    color: AppColors.darkGreen,
+                    shape: BoxShape.circle,
+                  ),
+                  child: new Column(
+                    children: <Widget>[
+                      new Icon(imageList[i],
+                          size: 25.0, color: Colors.lightGreenAccent)
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  _onItemClicked(i, context, titles[i]);
+                },
+              ),
+              new Padding(
+                padding: new EdgeInsets.only(top: 10.0),
+                child: new Text(
+                  titles[i],
+                  style: new TextStyle(color: AppColors.darkGreen),
+                ),
+              )
             ],
           ),
-          onTap: () => _onItemClicked(i, context),
         ),
-      ));
+      )));
     }
     return tiles;
   }
@@ -47,7 +73,6 @@ class TemplateListPage extends StatelessWidget {
     imageList.add(Icons.accessibility);
     imageList.add(Icons.event_seat);
 
-
     List<String> titles = new List<String>();
     titles.add("Health");
     titles.add("Travel");
@@ -59,14 +84,12 @@ class TemplateListPage extends StatelessWidget {
 
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text("Select Template"),
+          title: new Text("Select Template", style: TextStyle(color: Colors.white),),
+          backgroundColor: Colors.lightGreen,
         ),
         body: new GridView.count(
           crossAxisCount: 3,
-          childAspectRatio: 3.0,
           padding: const EdgeInsets.all(5.0),
-          mainAxisSpacing: 5.0,
-          crossAxisSpacing: 5.0,
           children: _getGridItems(imageList, titles, context),
         ));
   }

@@ -37,7 +37,8 @@ class _CameraPreviewScreenState extends State<CameraPreviewScreen> {
     return new Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
-        title: const Text('Camera example'),
+        title: const Text('Camera'),
+        backgroundColor: Colors.lightGreen,
       ),
       body: new Column(
         children: <Widget>[
@@ -176,7 +177,7 @@ class _CameraPreviewScreenState extends State<CameraPreviewScreen> {
         setState(() {
           imagePath = filePath;
         });
-        if (filePath != null) showInSnackBar('Picture saved to $filePath');
+        if (filePath != null) showInSnackBar('$filePath');
       }
     });
   }

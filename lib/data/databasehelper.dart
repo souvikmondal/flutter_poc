@@ -12,7 +12,8 @@ final String columnEmail = "email";
 final String columnMobile = "mobile";
 final String columnAge = "age";
 final String columnImagePath = "imagepath";
-final String columnLocation = "location";
+final String columnLatitude = "latitude";
+final String columnLongitude = "longitude";
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = new DatabaseHelper.internal();
@@ -41,7 +42,7 @@ class DatabaseHelper {
 
   void _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE $tableName($columnName TEXT, $columnEmail TEXT, $columnMobile TEXT, $columnAge TEXT, $columnImagePath TEXT, $columnLocation TEXT)");
+        "CREATE TABLE $tableName($columnName TEXT, $columnEmail TEXT, $columnMobile TEXT, $columnAge TEXT, $columnImagePath TEXT, $columnLatitude TEXT, $columnLongitude TEXT)");
     print("Table is Created ");
   }
 
@@ -62,13 +63,13 @@ class DatabaseHelper {
       columnMobile,
       columnAge,
       columnImagePath,
-      columnLocation
+      columnLatitude,
+      columnLongitude
     ]);
     int length = maps.length;
     if (length > 0) {
       for (int i = 0; i < length; i++) {
         FormData data = new FormData.fromMap(maps.elementAt(i));
-        String name= data.name;
         result.add(data);
 
       }

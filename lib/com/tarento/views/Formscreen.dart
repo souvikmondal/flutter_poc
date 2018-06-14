@@ -2,15 +2,23 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:poc/com/tarento/views/CameraPreviewScreen.dart';
 import 'package:poc/com/tarento/views/ListScreen.dart';
+import 'package:poc/com/tarento/views/home_page.dart';
 import 'package:poc/data/databasehelper.dart';
 import 'package:poc/model/formdata.dart';
+import 'package:poc/model/locationdata.dart';
 
 class Formscreen extends StatelessWidget {
+   LocationData locationData;
+   String title;
+
+  Formscreen(this.locationData,  this.title);
+
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: "My App",
-      home: new FormPage(),
+      title: this.title,
+      home: new FormPage(locationData,title),
       theme: new ThemeData(
           primarySwatch: Colors.green,
           brightness: Brightness.light,
@@ -20,6 +28,10 @@ class Formscreen extends StatelessWidget {
 }
 
 class FormPage extends StatefulWidget {
+  LocationData locationData;
+  String title;
+  FormPage(this.locationData, this.title);
+
   @override
   _FormPageState createState() => new _FormPageState();
 }
@@ -53,7 +65,8 @@ class _FormPageState extends State<FormPage> {
       data.mobile = _mobile;
       data.age = _age;
       data.imagepath = _imagePath;
-      data.location = _mapLocation;
+      data.latitude = widget.locationData.latitude;
+      data.longitude = widget.locationData.longitude;
       var db = DatabaseHelper.instance;
       db.saveFormData(data).then((onValue) => _openListScreen());
     }
@@ -61,22 +74,15 @@ class _FormPageState extends State<FormPage> {
 
   _openListScreen() {
     final snackbar = new SnackBar(
-        content: new Text(
-            "Name: $_name, email: $_email, phoneNumber: $_mobile, age: $_age"));
+        content: new Text("Data Saved"));
     scaffoldKey.currentState.showSnackBar(snackbar);
-    Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => new ListScreen()));
+//    Navigator.pop(context, "submit");
+
+//  new Scaffold(new SnackBar(content: "Data Save"))
+//    Navigator.push(
+//        context, new MaterialPageRoute(builder: (context) => new ListScreen()));
   }
 
-  //Starts the map screen
-  _openMap(BuildContext buildContext) async {
-//    final result = await Navigator.push(
-//        context,
-//        new MaterialPageRoute(
-//            builder: (context) => new MapPage(title: 'Sports Events')));
-//    _mapLocation = result;
-//    print("location ---->> $_mapLocation");
-  }
 
   _openCamera(BuildContext contfbext) async {
     List<CameraDescription> cameras;
@@ -96,9 +102,11 @@ class _FormPageState extends State<FormPage> {
     return new Scaffold(
       key: scaffoldKey,
       appBar: new AppBar(
-        title: new Text("Home Page"),
-        centerTitle: true,
+        title: new Text(widget.title),
+        backgroundColor: Colors.lightGreen,
+
       ),
+
       body: new Padding(
         padding: const EdgeInsets.all(20.0),
         child: new Form(
@@ -139,11 +147,6 @@ class _FormPageState extends State<FormPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    new IconButton(
-                        icon: new Icon(Icons.map),
-                        onPressed: () {
-//                          _openMap(context);
-                        }),
                     new IconButton(
                         icon: new Icon(Icons.camera),
                         onPressed: () {

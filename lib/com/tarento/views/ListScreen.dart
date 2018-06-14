@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:poc/data/databasehelper.dart';
 import 'package:poc/model/formdata.dart';
 
-
 class ListScreen extends StatefulWidget {
   @override
   _ListScreenState createState() => _ListScreenState();
@@ -34,27 +33,59 @@ class _ListScreenState extends State<ListScreen> {
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("List Screen"),
+          backgroundColor: Colors.lightGreen,
         ),
         body: new ListView.builder(
           itemCount: listData == null ? 0 : listData.length,
           itemBuilder: (BuildContext context, int index) {
-            return new Card(
-              child: new Row(
-                children: <Widget>[
-                  new Text(listData[index].name),
-                  new Padding(padding: const EdgeInsets.all(5.0)),
-                  new Text(listData[index].email),
-                  new Padding(padding: const EdgeInsets.all(5.0)),
-                  new Text(listData[index].mobile),
-                  new Padding(padding: const EdgeInsets.all(5.0)),
-                  new Text(listData[index].age),
-                  new Padding(padding: const EdgeInsets.all(5.0)),
-                  new Text(listData[index].imagepath),
-                  new Padding(padding: const EdgeInsets.all(5.0)),
-                  new Text(listData[index].location),
-                  new Padding(padding: const EdgeInsets.all(5.0)),
-                ],
-              ),
+            return new Expanded(
+              child: new ListView.builder(
+                  itemCount: listData == null ? 0 : listData.length,
+                  itemBuilder: (BuildContext context, int index){
+                    return new Card(
+                        elevation: 4.0,
+                        color: Colors.white,
+                        child: new Padding(padding: const EdgeInsets.all(15.0),
+                          child: new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              new Text(listData[index].name, style: new TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24.0,
+                                color: Colors.black,
+
+                              )),
+                              new Text(listData[index].email, style: new TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+
+                              )),
+                              new Text(listData[index].age, style: new TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+
+                              )),
+                              new Text(listData[index].mobile, style: new TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+
+                              )),
+                              new Text(listData[index].latitude, style: new TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+
+
+                              )),
+                              new Text(listData[index].longitude, style: new TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+
+                              )),
+                            ],
+                          ),)
+                    );
+                  }),
             );
           },
         ));

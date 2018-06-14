@@ -6,6 +6,9 @@ import 'package:map_view/location.dart' as MapViewLocation;
 import 'package:location/location.dart' as Location;
 import 'package:poc/com/tarento/views/colors.dart';
 import 'package:poc/com/tarento/views/template_page.dart';
+import 'package:poc/data/databasehelper.dart';
+import 'package:poc/model/formdata.dart';
+import 'package:poc/model/locationdata.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -18,17 +21,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+
   Map<String, double> _currentLocation;
 
   StreamSubscription<Map<String, double>> _locationSubscription;
 
   Location.Location _location = new Location.Location();
   String error;
+  List<FormData> listData;
+
+
+  Future<List<FormData>> getListViewData() async {
+    var db = DatabaseHelper.instance;
+    List<FormData> response = await db.getAllData();
+    this.setState(() {
+      this.listData = response;
+    });
+    return response;
+  }
 
 
   initState() {
     super.initState();
     _fetchCurrentLocation();
+
+    this.getListViewData();
+
   }
 
   _fetchCurrentLocation() async {
@@ -98,10 +116,12 @@ class _HomePageState extends State<HomePage> {
     });
 
     _mapView.onTouchAnnotation.listen((marker) {
+
+      LocationData locationData = new LocationData(marker.latitude.toString(),marker.longitude.toString());
       _mapView.dismiss();
 
       Navigator.push(context,
-          new MaterialPageRoute(builder: (context) => new TemplateListPage()));
+          new MaterialPageRoute(builder: (context) => new TemplateListPage(locationData)));
     });
 
     _mapView.onToolbarAction.listen((id) {
@@ -116,8 +136,9 @@ class _HomePageState extends State<HomePage> {
     return new Scaffold(
       floatingActionButton: new FloatingActionButton(
         onPressed: showMap,
-        backgroundColor: Colors.indigo,
-        child: new Icon(
+
+        backgroundColor: Colors.lightGreen,
+        child: Icon(
           Icons.add,
           color: Colors.white,
         ),
@@ -272,6 +293,55 @@ class _HomePageState extends State<HomePage> {
                     )
                   ],
                 )),
+            new Expanded(
+            child: new ListView.builder(
+                itemCount: listData == null ? 0 : listData.length,
+                itemBuilder: (BuildContext context, int index){
+                  return new Card(
+                    elevation: 4.0,
+                    color: Colors.white,
+                    child: new Padding(padding: const EdgeInsets.all(15.0),
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        new Text(listData[index].name, style: new TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24.0,
+                          color: Colors.black,
+
+                        )),
+                        new Text(listData[index].email, style: new TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black,
+
+                        )),
+                        new Text(listData[index].age, style: new TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black,
+
+                        )),
+                        new Text(listData[index].mobile, style: new TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black,
+
+                        )),
+                        new Text(listData[index].latitude, style: new TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black,
+
+
+                        )),
+                        new Text(listData[index].longitude, style: new TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black,
+
+                        )),
+                      ],
+                    ),)
+                  );
+                }),
+            )
           ],
         ),
       ),

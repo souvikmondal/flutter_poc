@@ -3,7 +3,8 @@ final String columnEmail = "email";
 final String columnMobile = "mobile";
 final String columnAge = "age";
 final String columnImagePath = "imagepath";
-final String columnLocation = "location";
+final String columnLatitude = "latitude";
+final String columnLongitude = "longitude";
 
 class FormData {
   String name;
@@ -11,7 +12,8 @@ class FormData {
   String mobile;
   String age;
   String imagepath;
-  String location;
+  String latitude;
+  String longitude;
 
   FormData();
 
@@ -22,7 +24,8 @@ class FormData {
       columnMobile: mobile,
       columnAge: age,
       columnImagePath: imagepath,
-      columnLocation: location
+      columnLatitude:latitude,
+      columnLongitude:longitude
     };
 
     return map;
@@ -34,6 +37,7 @@ class FormData {
     mobile = map[columnMobile];
     age = map[columnAge];
     imagepath = map[columnImagePath];
-    location = map[columnLocation];
+    latitude = map[columnLatitude];
+    longitude=map[columnLongitude];
   }
 }
