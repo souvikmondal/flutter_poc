@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _fetchCurrentLocation();
 
-    this.getListViewData();
+//    this.getListViewData();
 
   }
 
@@ -133,12 +133,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    getListViewData();
+
     return new Scaffold(
       floatingActionButton: new FloatingActionButton(
         onPressed: showMap,
 
         backgroundColor: Colors.lightGreen,
-        child: Icon(
+        child: new Icon(
           Icons.add,
           color: Colors.white,
         ),

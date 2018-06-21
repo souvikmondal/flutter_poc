@@ -7,26 +7,6 @@ import 'package:poc/data/databasehelper.dart';
 import 'package:poc/model/formdata.dart';
 import 'package:poc/model/locationdata.dart';
 
-class Formscreen extends StatelessWidget {
-   LocationData locationData;
-   String title;
-
-  Formscreen(this.locationData,  this.title);
-
-
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: this.title,
-      home: new FormPage(locationData,title),
-      theme: new ThemeData(
-          primarySwatch: Colors.green,
-          brightness: Brightness.light,
-          accentColor: Colors.red),
-    );
-  }
-}
-
 class FormPage extends StatefulWidget {
   LocationData locationData;
   String title;
@@ -102,7 +82,7 @@ class _FormPageState extends State<FormPage> {
     return new Scaffold(
       key: scaffoldKey,
       appBar: new AppBar(
-        title: new Text(widget.title),
+        title: new Text(widget.title, style: new TextStyle(color: Colors.white),),
         backgroundColor: Colors.lightGreen,
 
       ),

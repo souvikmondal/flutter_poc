@@ -15,7 +15,7 @@ class TemplateListPage extends StatelessWidget {
     Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new Formscreen(locationData, title)));
+            builder: (context) => new FormPage(locationData, title)));
   }
 
   List<Widget> _getGridItems(
@@ -84,7 +84,7 @@ class TemplateListPage extends StatelessWidget {
 
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text("Select Template", style: TextStyle(color: Colors.white),),
+          title: new Text("Select Template", style: new TextStyle(color: Colors.white),),
           backgroundColor: Colors.lightGreen,
         ),
         body: new GridView.count(
